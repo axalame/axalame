@@ -1,0 +1,224 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Свадебное приглашение | Оксана и Олег</title>
+  <meta name="description" content="Теплое онлайн-приглашение на свадьбу" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Marck+Script&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { visibility: hidden; }
+    body.loaded, body.intro-locked { visibility: visible; }
+  </style>
+</head>
+<body class="intro-locked">
+  <div class="intro-card-wrapper" id="introEnvelope">
+    <button class="card-flip" id="envelopeBtn" type="button" aria-label="Открыть приглашение">
+      <div class="card-front">
+        <div class="card-front-content">
+          <span class="front-text">Свадебное</span>
+          <span class="front-text">приглашение</span>
+          <span class="front-tap">Нажмите</span>
+        </div>
+      </div>
+      <div class="card-back">
+        <div class="card-back-content">
+          <span class="back-names">Оксана &amp; Олег</span>
+          <span class="back-date">06.06.2026</span>
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <div class="grain"></div>
+
+  <header class="hero" id="top" data-animate>
+    <nav class="top-nav container">
+      <div class="nav-links">
+        <a href="#about">О нас</a>
+        <a href="#dresscode">Дресс-код</a>
+        <a href="#timeline">Тайминг</a>
+        <a href="#location">Локация</a>
+        <a href="#rsvp">Анкета гостя</a>
+      </div>
+    </nav>
+
+    <div class="container hero-content" data-parallax="0.14">
+      <p class="eyebrow">Онлайн-приглашение на свадьбу</p>
+      <h1>Оксана <span>&</span> Олег</h1>
+      <p class="date">06.06.2026</p>
+
+      <section class="countdown" id="countdown" data-date="2026-06-06T00:00:00+03:00" aria-label="Обратный отсчет до свадьбы">
+        <div class="time-box">
+          <strong id="days">00</strong>
+          <span>дней</span>
+        </div>
+        <div class="time-box">
+          <strong id="hours">00</strong>
+          <span>часов</span>
+        </div>
+        <div class="time-box">
+          <strong id="minutes">00</strong>
+          <span>минут</span>
+        </div>
+        <div class="time-box">
+          <strong id="seconds">00</strong>
+          <span>секунд</span>
+        </div>
+      </section>
+    </div>
+
+    <a class="scroll-down" href="#about" aria-label="Прокрутить вниз">Прокрутить</a>
+  </header>
+
+  <main>
+    <section class="section" id="about" data-animate>
+      <div class="container split about-split">
+        <div class="assemble-unit">
+          <h2>Дорогие гости</h2>
+          <p>
+            Мы будем счастливы разделить с вами самый теплый день нашей жизни.
+            Приходите, чтобы вместе смеяться, танцевать и создать воспоминания,
+            которые останутся с нами навсегда.
+          </p>
+        </div>
+        <div class="flowers-only assemble-unit" data-parallax="0.1">
+          <img class="flowers-photo" src="assets/img/2.png" alt="Цветы" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="dresscode" data-animate>
+      <div class="container">
+        <div class="dress-code-card warm-glow assemble-unit">
+          <h2>Дресс-код</h2>
+          <p>
+            Пастельные и теплые оттенки. Будем благодарны, если вы поддержите общую атмосферу праздника.
+          </p>
+          <div class="dress-swatches" aria-label="Подходящие оттенки">
+            <span class="dress-swatch" style="background:#f3e3d6" title="Светло-бежевый"></span>
+            <span class="dress-swatch" style="background:#e8c7b2" title="Пудровый"></span>
+            <span class="dress-swatch" style="background:#d7b8a0" title="Теплый нюд"></span>
+            <span class="dress-swatch" style="background:#c8a88f" title="Песочный"></span>
+            <span class="dress-swatch" style="background:#b8866a" title="Терракотовый"></span>
+            <span class="dress-swatch" style="background:#f1ddd0" title="Персиковый"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="timeline" data-animate>
+      <div class="container">
+        <h2>Тайминг дня</h2>
+        <div class="timeline-layout">
+          <div class="timeline timeline-frame">
+<article class="timeline-item timeline-step">
+              <span>15:00</span>
+              <p><b class="timeline-icon">👥</b>Сбор гостей</p>
+            </article>
+            <article class="timeline-item timeline-step">
+              <span>16:00</span>
+              <p><b class="timeline-icon">💒</b>Выездная церемония</p>
+            </article>
+            <article class="timeline-item timeline-step">
+              <span>17:30</span>
+              <p><b class="timeline-icon">🥂</b>Банкет</p>
+            </article>
+            <article class="timeline-item timeline-step">
+              <span>20:30</span>
+              <p><b class="timeline-icon">🎂</b>Торт и первый танец</p>
+            </article>
+          </div>
+          <aside class="wedding-calendar assemble-unit" aria-label="Календарь июня 2026">
+            <p class="calendar-title">Июнь 2026</p>
+            <div class="calendar-weekdays">
+              <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
+            </div>
+            <div class="calendar-grid">
+              <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span class="wedding-day">6</span><span>7</span>
+              <span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span>
+              <span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span>
+              <span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span>
+              <span>29</span><span>30</span><span class="blank"></span><span class="blank"></span><span class="blank"></span><span class="blank"></span><span class="blank"></span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="location" data-animate>
+      <div class="container split">
+        <div class="assemble-unit">
+          <h2>Локация</h2>
+          <p>Локация: Марфино</p>
+          <p><strong>Точный адрес:</strong> Ивановская область, Вичугский район, Сунженское сельское поселение, Марфино, дорога «Марфино — Потехино».</p>
+          <a class="btn btn-primary" target="_blank" rel="noopener" href="https://yandex.ru/maps/org/marfino/58315325959/?ll=41.909575%2C57.276509&z=19">Построить маршрут</a>
+        </div>
+        <div class="map-wrap assemble-unit">
+          <iframe
+            title="Карта"
+            src="https://yandex.ru/map-widget/v1/?ll=41.909575%2C57.276509&oid=58315325959&ol=biz&z=19"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="rsvp" data-animate>
+      <div class="container">
+        <h2>Анкета гостя</h2>
+        <form class="rsvp-form warm-glow assemble-unit" id="rsvpForm" autocomplete="off">
+          <label>
+            Имя и фамилия
+            <input type="text" name="name" required placeholder="Иван Иванов" />
+          </label>
+          <label>
+            Вы придете?
+            <select name="attendance" required>
+              <option value="">Выберите вариант</option>
+              <option value="yes">Да, с радостью</option>
+              <option value="no">К сожалению, не смогу</option>
+            </select>
+          </label>
+          <fieldset class="drink-fieldset">
+            <legend>Выбор напитков</legend>
+            <div class="drink-grid">
+              <label class="drink-option"><input type="checkbox" name="drinks" value="Шампанское" /> Шампанское</label>
+              <label class="drink-option"><input type="checkbox" name="drinks" value="Белое вино" /> Белое вино</label>
+              <label class="drink-option"><input type="checkbox" name="drinks" value="Красное вино" /> Красное вино</label>
+              <label class="drink-option"><input type="checkbox" name="drinks" value="Коктейли" /> Коктейли</label>
+              <label class="drink-option"><input type="checkbox" name="drinks" value="Сок/морс" /> Сок/морс</label>
+              <label class="drink-option"><input type="checkbox" name="drinks" value="Водка" /> Водка</label>
+              <label class="drink-option"><input type="checkbox" name="drinks" value="Коньяк" /> Коньяк</label>
+            </div>
+          </fieldset>
+          <label>
+            Комментарий
+            <textarea name="comment" rows="4" placeholder="например, Ваши пожелания"></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary">Отправить ответ</button>
+          <p class="form-note" id="formNote"></p>
+          <div class="form-loading" id="formLoading">
+            <span class="loading-spinner"></span>
+            <span>Отправка...</span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" data-animate>
+    <div class="container">
+      <p>С любовью, Оксана и Олег</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Наверх">↑</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
