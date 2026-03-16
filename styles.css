@@ -646,16 +646,6 @@ h2 {
   gap: 12px;
 }
 
-.recaptcha-wrap {
-  display: flex;
-  justify-content: center;
-  margin: 6px 0 2px;
-}
-
-.recaptcha-wrap .g-recaptcha {
-  transform: scale(0.94);
-  transform-origin: center;
-}
 
 .drink-fieldset {
   margin: 0;

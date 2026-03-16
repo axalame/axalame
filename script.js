@@ -65,7 +65,8 @@ const envelopeBtn = document.getElementById("envelopeBtn");
 
 const RSVP_INTEGRATION = {
   appsScriptUrl: "https://script.google.com/macros/s/AKfycby7X4kHKUPr9HhtbCMRwiAvJK_a4lX5dKd15qnma_duLudoa2U0yCxxAzKh3Uy2MMsr/exec",
-  recaptchaSiteKey: "6LdTk4wsAAAAANaSP9hRAKTGppa-qdl2tbCWkp8r",
+  recaptchaSiteKey: "6LcxmIwsAAAAAOAjqwf8OeuQvtCxRJRudoOgUSxd",
+  recaptchaAction: "rsvp_submit",
   googleForm: {
     formActionUrl: "",
     entries: {
@@ -334,9 +335,7 @@ if (form) {
     payload.drinks = formData.getAll("drinks");
     payload.children = childrenToggle && childrenToggle.checked ? "yes" : "";
     payload.childrenCount = payload.children === "yes" ? (payload.childrenCount || "") : "";
-    payload.recaptchaToken = typeof grecaptcha !== "undefined"
-      ? grecaptcha.getResponse()
-      : "";
+    payload.recaptchaToken = "";
 
     if (formLoading) formLoading.classList.add("active");
     if (submitBtn) submitBtn.disabled = true;
@@ -346,14 +345,31 @@ if (form) {
     let sentToGoogle = false;
 
     if (RSVP_INTEGRATION.appsScriptUrl) {
-      if (!payload.recaptchaToken) {
-        note.textContent = "Пожалуйста, подтвердите reCAPTCHA.";
+      if (typeof grecaptcha === "undefined" || !RSVP_INTEGRATION.recaptchaSiteKey) {
+        note.textContent = "reCAPTCHA недоступна. Попробуйте позже.";
         note.style.color = "#b64545";
         note.classList.add("show");
         if (formLoading) formLoading.classList.remove("active");
         if (submitBtn) submitBtn.disabled = false;
+        setTimeout(() => note.classList.remove("show"), 2500);
         return;
       }
+
+      try {
+        payload.recaptchaToken = await grecaptcha.execute(
+          RSVP_INTEGRATION.recaptchaSiteKey,
+          { action: RSVP_INTEGRATION.recaptchaAction }
+        );
+      } catch (_err) {
+        note.textContent = "reCAPTCHA недоступна. Попробуйте позже.";
+        note.style.color = "#b64545";
+        note.classList.add("show");
+        if (formLoading) formLoading.classList.remove("active");
+        if (submitBtn) submitBtn.disabled = false;
+        setTimeout(() => note.classList.remove("show"), 2500);
+        return;
+      }
+
       try {
         await fetchWithTimeout(RSVP_INTEGRATION.appsScriptUrl, {
           method: "POST",
@@ -424,9 +440,6 @@ if (form) {
     note.classList.add("show");
     if (formLoading) formLoading.classList.remove("active");
     if (submitBtn) submitBtn.disabled = false;
-    if (typeof grecaptcha !== "undefined") {
-      grecaptcha.reset();
-    }
     
     // Hide form fields and show thank you
     const formFields = form.querySelectorAll('label, fieldset, button[type="submit"]');
