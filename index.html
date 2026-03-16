@@ -6,14 +6,11 @@
   <title>Свадебное приглашение</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Marck+Script&display=swap" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Marck+Script&display=block" />
   <link rel="stylesheet" href="styles.css" />
-  <style>
-    body { visibility: hidden; }
-    body.loaded, body.intro-locked { visibility: visible; }
-  </style>
 </head>
-<body class="intro-locked">
+<body class="intro-locked fonts-loading">
   <div class="intro-card-wrapper" id="introEnvelope">
     <button class="card-flip" id="envelopeBtn" type="button" aria-label="Открыть приглашение">
       <div class="card-front">
@@ -93,18 +90,7 @@
     <section class="section" id="dresscode" data-animate>
       <div class="container">
         <div class="dress-code-card warm-glow assemble-unit">
-          <h2>Дресс-код</h2>
-          <p>
-            Пастельные и теплые оттенки. Будем благодарны, если вы поддержите общую атмосферу праздника.
-          </p>
-          <div class="dress-swatches" aria-label="Подходящие оттенки">
-            <span class="dress-swatch" style="background:#f3e3d6" title="Светло-бежевый"></span>
-            <span class="dress-swatch" style="background:#e8c7b2" title="Пудровый"></span>
-            <span class="dress-swatch" style="background:#d7b8a0" title="Теплый нюд"></span>
-            <span class="dress-swatch" style="background:#c8a88f" title="Песочный"></span>
-            <span class="dress-swatch" style="background:#b8866a" title="Терракотовый"></span>
-            <span class="dress-swatch" style="background:#f1ddd0" title="Персиковый"></span>
-          </div>
+          <h2>Дресс-код: классический.</h2>
         </div>
       </div>
     </section>
@@ -114,21 +100,17 @@
         <h2>Тайминг дня</h2>
         <div class="timeline-layout">
           <div class="timeline timeline-frame">
-<article class="timeline-item timeline-step">
-              <span>15:00</span>
+            <article class="timeline-item timeline-step">
+              <span>10:30</span>
+              <p><b class="timeline-icon">💒</b>ЗАГС</p>
+            </article>
+            <article class="timeline-item timeline-step">
+              <span>11:00–14:00</span>
+              <p><b class="timeline-icon">🚗</b>Свадебный кортеж</p>
+            </article>
+            <article class="timeline-item timeline-step">
+              <span>14:00</span>
               <p><b class="timeline-icon">👥</b>Сбор гостей</p>
-            </article>
-            <article class="timeline-item timeline-step">
-              <span>16:00</span>
-              <p><b class="timeline-icon">💒</b>Выездная церемония</p>
-            </article>
-            <article class="timeline-item timeline-step">
-              <span>17:30</span>
-              <p><b class="timeline-icon">🥂</b>Банкет</p>
-            </article>
-            <article class="timeline-item timeline-step">
-              <span>20:30</span>
-              <p><b class="timeline-icon">🎂</b>Торт и первый танец</p>
             </article>
           </div>
           <aside class="wedding-calendar assemble-unit" aria-label="Календарь июня 2026">
@@ -152,14 +134,14 @@
       <div class="container split">
         <div class="assemble-unit">
           <h2>Локация</h2>
-          <p>Локация: Марфино</p>
-          <p><strong>Точный адрес:</strong> Ивановская область, Вичугский район, Сунженское сельское поселение, Марфино, дорога «Марфино — Потехино».</p>
-          <a class="btn btn-primary" target="_blank" rel="noopener" href="https://yandex.ru/maps/org/marfino/58315325959/?ll=41.909575%2C57.276509&z=19">Построить маршрут</a>
+          <p>Локация: Стрелец</p>
+          <p><strong>Точный адрес:</strong> Вичуга, Большая Пролетарская ул., 1.</p>
+          <a class="btn btn-primary" target="_blank" rel="noopener" href="https://yandex.ru/maps/org/strelets/1222280064/?l=stv%2Csta&ll=41.938666%2C57.213754&z=18.53">Открыть маршрут в Яндекс Картах</a>
         </div>
         <div class="map-wrap assemble-unit">
           <iframe
             title="Карта"
-            src="https://yandex.ru/map-widget/v1/?ll=41.909575%2C57.276509&oid=58315325959&ol=biz&z=19"
+            src="https://yandex.ru/map-widget/v1/?ll=41.938666%2C57.213754&oid=1222280064&ol=biz&z=18.53"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
@@ -182,18 +164,40 @@
               <option value="no">К сожалению, не смогу</option>
             </select>
           </label>
+          <fieldset class="children-fieldset">
+            <legend>Дети</legend>
+            <div class="children-options">
+              <label class="children-option">
+                <input type="checkbox" name="children" value="yes" id="childrenToggle" />
+                Будут дети
+              </label>
+            </div>
+          </fieldset>
+          <label>
+            Кол-во детей
+            <select name="childrenCount" id="childrenCount" disabled>
+              <option value="">Выберите количество</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
           <fieldset class="drink-fieldset">
             <legend>Выбор напитков</legend>
             <div class="drink-grid">
               <label class="drink-option"><input type="checkbox" name="drinks" value="Шампанское" /> Шампанское</label>
               <label class="drink-option"><input type="checkbox" name="drinks" value="Белое вино" /> Белое вино</label>
               <label class="drink-option"><input type="checkbox" name="drinks" value="Красное вино" /> Красное вино</label>
-              <label class="drink-option"><input type="checkbox" name="drinks" value="Коктейли" /> Коктейли</label>
               <label class="drink-option"><input type="checkbox" name="drinks" value="Сок/морс" /> Сок/морс</label>
               <label class="drink-option"><input type="checkbox" name="drinks" value="Водка" /> Водка</label>
               <label class="drink-option"><input type="checkbox" name="drinks" value="Коньяк" /> Коньяк</label>
             </div>
           </fieldset>
+          <div class="recaptcha-wrap">
+            <div class="g-recaptcha" data-sitekey="6LdTk4wsAAAAANaSP9hRAKTGppa-qdl2tbCWkp8r"></div>
+          </div>
           <label>
             Комментарий
             <textarea name="comment" rows="4" placeholder="например, Ваши пожелания"></textarea>
@@ -220,4 +224,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-

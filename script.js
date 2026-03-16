@@ -2,7 +2,8 @@
 
 // Wait for fonts to load before showing content
 document.fonts.ready.then(() => {
-  document.body.classList.add("loaded");
+  document.body.classList.remove("fonts-loading");
+  document.body.classList.add("fonts-ready");
 });
 
 // Reset form state on page load
@@ -63,12 +64,15 @@ const introEnvelope = document.getElementById("introEnvelope");
 const envelopeBtn = document.getElementById("envelopeBtn");
 
 const RSVP_INTEGRATION = {
-  appsScriptUrl: "https://script.google.com/macros/s/AKfycbxOSzgQ-ZOvKJn-m-u6J-l6955Hmo_vCzVY5WNqr0bl079e4L8tKL0eMe8TlMaFzk4Y/exec",
+  appsScriptUrl: "https://script.google.com/macros/s/AKfycby7X4kHKUPr9HhtbCMRwiAvJK_a4lX5dKd15qnma_duLudoa2U0yCxxAzKh3Uy2MMsr/exec",
+  recaptchaSiteKey: "6LdTk4wsAAAAANaSP9hRAKTGppa-qdl2tbCWkp8r",
   googleForm: {
     formActionUrl: "",
     entries: {
       name: "",
       attendance: "",
+      children: "",
+      childrenCount: "",
       drinks: "",
       comment: ""
     }
@@ -293,6 +297,34 @@ if (isMobile) {
 if (form) {
   const formLoading = document.getElementById("formLoading");
   const submitBtn = form.querySelector('button[type="submit"]');
+  const childrenCount = document.getElementById("childrenCount");
+  const childrenToggle = document.getElementById("childrenToggle");
+  const REQUEST_TIMEOUT_MS = 8000;
+
+  const fetchWithTimeout = async (url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) => {
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      return await fetch(url, { ...options, signal: controller.signal });
+    } finally {
+      window.clearTimeout(timeoutId);
+    }
+  };
+
+  const syncChildrenCountState = () => {
+    if (!childrenCount) return;
+    const hasChildren = !!(childrenToggle && childrenToggle.checked);
+    childrenCount.disabled = !hasChildren;
+    childrenCount.required = hasChildren;
+    if (!hasChildren) {
+      childrenCount.value = "";
+    }
+  };
+
+  if (childrenToggle) {
+    childrenToggle.addEventListener("change", syncChildrenCountState);
+  }
+  syncChildrenCountState();
   
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -300,7 +332,12 @@ if (form) {
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
     payload.drinks = formData.getAll("drinks");
-    
+    payload.children = childrenToggle && childrenToggle.checked ? "yes" : "";
+    payload.childrenCount = payload.children === "yes" ? (payload.childrenCount || "") : "";
+    payload.recaptchaToken = typeof grecaptcha !== "undefined"
+      ? grecaptcha.getResponse()
+      : "";
+
     if (formLoading) formLoading.classList.add("active");
     if (submitBtn) submitBtn.disabled = true;
     note.textContent = "";
@@ -309,11 +346,20 @@ if (form) {
     let sentToGoogle = false;
 
     if (RSVP_INTEGRATION.appsScriptUrl) {
+      if (!payload.recaptchaToken) {
+        note.textContent = "Пожалуйста, подтвердите reCAPTCHA.";
+        note.style.color = "#b64545";
+        note.classList.add("show");
+        if (formLoading) formLoading.classList.remove("active");
+        if (submitBtn) submitBtn.disabled = false;
+        return;
+      }
       try {
-        await fetch(RSVP_INTEGRATION.appsScriptUrl, {
+        await fetchWithTimeout(RSVP_INTEGRATION.appsScriptUrl, {
           method: "POST",
           mode: "no-cors",
           body: JSON.stringify({
+            recaptchaToken: payload.recaptchaToken,
             ...payload,
             createdAt: new Date().toISOString()
           })
@@ -321,20 +367,26 @@ if (form) {
         // In no-cors mode the response is opaque, so treat successful fetch call as sent.
         sentToGoogle = true;
       } catch (_error) {
+        if (_error && _error.name === "AbortError") {
+          // Request likely reached Google, but we timed out waiting.
+          sentToGoogle = true;
+        }
       }
     }
 
     if (!sentToGoogle && RSVP_INTEGRATION.googleForm.formActionUrl) {
       const { formActionUrl, entries } = RSVP_INTEGRATION.googleForm;
-      if (entries.name && entries.attendance && entries.drinks && entries.comment) {
+      if (entries.name && entries.attendance && entries.children && entries.childrenCount && entries.drinks && entries.comment) {
         try {
           const params = new URLSearchParams();
           params.append(entries.name, payload.name || "");
           params.append(entries.attendance, payload.attendance || "");
+          params.append(entries.children, payload.children || "");
+          params.append(entries.childrenCount, payload.childrenCount || "");
           params.append(entries.drinks, (payload.drinks || []).join(", "));
           params.append(entries.comment, payload.comment || "");
 
-          await fetch(formActionUrl, {
+          await fetchWithTimeout(formActionUrl, {
             method: "POST",
             mode: "no-cors",
             body: params
@@ -342,6 +394,9 @@ if (form) {
 
           sentToGoogle = true;
         } catch (_error) {
+          if (_error && _error.name === "AbortError") {
+            sentToGoogle = true;
+          }
         }
       }
     }
@@ -369,6 +424,9 @@ if (form) {
     note.classList.add("show");
     if (formLoading) formLoading.classList.remove("active");
     if (submitBtn) submitBtn.disabled = false;
+    if (typeof grecaptcha !== "undefined") {
+      grecaptcha.reset();
+    }
     
     // Hide form fields and show thank you
     const formFields = form.querySelectorAll('label, fieldset, button[type="submit"]');
