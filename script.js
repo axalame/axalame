@@ -64,7 +64,7 @@ const introEnvelope = document.getElementById("introEnvelope");
 const envelopeBtn = document.getElementById("envelopeBtn");
 
 const RSVP_INTEGRATION = {
-  appsScriptUrl: "https://script.google.com/macros/s/AKfycby7X4kHKUPr9HhtbCMRwiAvJK_a4lX5dKd15qnma_duLudoa2U0yCxxAzKh3Uy2MMsr/exec",
+  appsScriptUrl: "https://script.google.com/macros/s/AKfycbw38zwTt81WWXbI71muS0XcNYfuGvS8hJqvrhWpc9uhsHlSVSOOGtX3cX3VfnSAJudG/exec",
   recaptchaSiteKey: "6LcxmIwsAAAAAOAjqwf8OeuQvtCxRJRudoOgUSxd",
   recaptchaAction: "rsvp_submit",
   googleForm: {
@@ -356,6 +356,7 @@ if (form) {
       }
 
       try {
+        await new Promise((resolve) => grecaptcha.ready(resolve));
         payload.recaptchaToken = await grecaptcha.execute(
           RSVP_INTEGRATION.recaptchaSiteKey,
           { action: RSVP_INTEGRATION.recaptchaAction }

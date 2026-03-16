@@ -33,6 +33,11 @@ body.intro-locked {
   overflow: hidden;
 }
 
+/* Hide reCAPTCHA v3 badge (add your own notice in the form). */
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
 body.fonts-loading,
 body.fonts-loading * {
   color: transparent !important;
